@@ -1,0 +1,6 @@
+make --dry-run --keep-going --print-directory
+make: Entering directory '/home/fwcheesecake/CppProjects/openg-rubik'
+make: Leaving directory '/home/fwcheesecake/CppProjects/openg-rubik'
+ 
+makefile:6: *** missing separator.  Stop.
+
