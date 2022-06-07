@@ -1,3 +1,14 @@
+/**
+ * @file main.cpp
+ * @author Antonio Reyna Espinoza (antoniore102001@gmail.com)
+ * @brief Open GL rubik's cube implementation
+ * @version 0.1
+ * @date 2022-06-07
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
+
 #include <GL/gl.h>
 #include <GL/glut.h>
 #include <stdlib.h>
@@ -6,25 +17,19 @@
 static GLfloat ang, xRang = 2.0, yRang = 2.0, zRang = 2.0;
 GLuint textures[7];
 
-/*int cubo[55] = {
-  0,2,0,2,0,2,0,2,0, //Izquierda
-  1,3,1,3,1,3,1,3,1, //Frente
-  2,0,2,0,2,0,2,0,2, //Derecha
-  3,1,3,1,3,1,3,1,3, //Atras
-  4,5,4,5,4,5,4,5,4, //Arriba
-  5,4,5,4,5,4,5,4,5, //Abajo
-  6,  //VALOR EXTRA
-  };*/
+/**
+ * @brief rubik's cube's cells
+ * 
+ */
+int cube[55] = {
+	1,5,5,1,0,5,0,1,1, // left
+	3,4,4,3,4,4,2,3,3, // front
+	2,2,4,2,2,4,4,4,3, // right
 
-int cubo[55] = {
-	1,5,5,1,0,5,0,1,1, //Izquierda
-	3,4,4,3,4,4,2,3,3, //Frente
-	2,2,4,2,2,4,4,4,3, //Derecha
-
-	1,1,0,1,5,0,0,0,5, //Atras
-	4,2,2,2,3,3,2,3,3, //Arriba
-	5,0,0,5,1,0,1,5,5, //Abajo
-	6,  //VALOR EXTRA
+	1,1,0,1,5,0,0,0,5, // back
+	4,2,2,2,3,3,2,3,3, // top
+	5,0,0,5,1,0,1,5,5, // bottom
+	6,  // extra value
 };
 
 int vertices[56][3] = {
@@ -91,7 +96,7 @@ int vertices[56][3] = {
 	{-1,  1, -3}        // 55
 };
 
-double colores[7][3] = {
+double colors[7][3] = {
 	{1.0, 0.5, 0.0},    //NARANJA   0
 	{1.0, 1.0, 1.0},    //BLANCO    1
 	{1.0, 0.0, 0.0},    //ROJO      2
@@ -101,7 +106,13 @@ double colores[7][3] = {
 	{0.0, 0.0, 0.0}     //NEGRO     6
 };
 
-GLuint LoadTexture(const char* filename)
+/**
+ * @brief A function to load textures from bitmaps 
+ * 
+ * @param filename 
+ * @return GLuint 
+ */
+GLuint loadTexture(const char* filename)
 {
 	GLuint texture;
 	int width, height;
@@ -164,7 +175,7 @@ static void resize(int width, int height)
 static void sticker(int n, int v1, int v2, int v3, int v4)
 {
 	double len = 0.35;
-	int color = cubo[n];
+	int color = cube[n];
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, textures[color]);
 	glBegin(GL_QUADS);
@@ -184,132 +195,132 @@ static void sticker(int n, int v1, int v2, int v3, int v4)
 	glDisable(GL_TEXTURE);
 }
 
-static void esquina1()
+static void corner1()
 {
 	sticker(9, 3, 4, 16, 15);
 	sticker(42, 2, 50, 4, 3);
 	sticker(2, 2, 3, 15, 14);
 }
 
-static void esquina2()
+static void corner2()
 {
 	sticker(11, 5, 6, 18, 17);
 	sticker(18, 6, 7, 19, 18);
 	sticker(44, 51, 7, 6, 5);
 }
 
-static void esquina3()
+static void corner3()
 {
 	sticker(20, 8, 9, 21, 20);
 	sticker(27, 9, 10, 22, 21);
 	sticker(36, 10, 9, 8, 49);
 }
 
-static void esquina4()
+static void corner4()
 {
 	sticker(0, 0, 1, 13, 12);
 	sticker(29, 11, 0, 12, 23);
 	sticker(36, 0, 11, 48, 1);
 }
 
-static void esquina5()
+static void corner5()
 {
 	sticker(8, 26, 27, 39, 38);
 	sticker(15, 27, 28, 40, 39);
 	sticker(45, 39, 40, 52, 38);
 }
 
-static void esquina6()
+static void corner6()
 {
 	sticker(17, 29, 30, 42, 41);
 	sticker(24, 30, 31, 43, 42);
 	sticker(47, 41, 42, 43, 53);
 }
 
-static void esquina7()
+static void corner7()
 {
 	sticker(26, 32, 33, 45, 44);
 	sticker(33, 33, 34, 46, 45);
 	sticker(53, 55, 44, 45, 46);
 }
 
-static void esquina8()
+static void corner8()
 {
 	sticker(6, 24, 25, 37, 36);
 	sticker(35, 35, 24, 36, 47);
 	sticker(51, 37, 54, 47, 36);
 }
 
-//ARISTAS
+//edgeS
 
-static void arista1()
+static void edge1()
 {
 	sticker(1, 1, 2, 14, 13);
 	sticker(39, 1, 48, 50, 2);
 }
 
-static void arista2()
+static void edge2()
 {
 	sticker(10, 4, 5, 17, 16);
 	sticker(43, 50, 51, 5, 4);
 }
 
-static void arista3()
+static void edge3()
 {
 	sticker(19, 7, 8, 20, 19);
 	sticker(41, 49, 8, 7, 51);
 }
 
-static void arista4()
+static void edge4()
 {
 	sticker(28, 10, 11, 23, 22);
 	sticker(37, 11, 10, 49, 48);
 }
 
-//ARISTAS CAPAS DE EN MEDIO SEGUNDA CAPA
-static void arista5()
+//edgeS CAPAS DE EN MEDIO SEGUNDA CAPA
+static void edge5()
 {
 	sticker(5, 14, 15, 27, 26);
 	sticker(12, 15, 16, 28, 27);
 }
 
-static void arista6()
+static void edge6()
 {
 	sticker(14, 17, 18, 30, 29);
 	sticker(21, 18, 19, 31, 30);
 }
 
-static void arista7()
+static void edge7()
 {
 	sticker(23, 20, 21, 33, 32);
 	sticker(30, 21, 22, 34, 33);
 }
 
-static void arista8()
+static void edge8()
 {
 	sticker(3, 12, 13, 25, 24);
 	sticker(32, 23, 12, 24, 35);
 }
 
-static void arista9()
+static void edge9()
 {
 	sticker(7, 25, 26, 38, 37);
 	sticker(48, 38, 52, 54, 37);
 }
 
-static void arista10()
+static void edge10()
 {
 	sticker(16, 28, 29, 41, 40);
 	sticker(46, 40, 41, 53, 52);
 }
 
-static void arista11()
+static void edge11()
 {
 	sticker(25, 31, 32, 44, 43);
 	sticker(50, 53, 43, 44, 55);
 }
 
-static void arista12()
+static void edge12()
 {
 	sticker(34, 34, 35, 47, 46);
 	sticker(52, 54, 55, 46, 47);
@@ -326,33 +337,33 @@ void drawcube()
 	sticker(40, 48, 49, 51, 50);    //CENTRO SUPERIOR
 	sticker(49, 52, 53, 55, 54);    //CENTRO INFERIOR
 
-	//ESQUINAS
-	esquina1();
-	esquina2();
-	esquina3();
-	esquina4();
-	esquina5();
-	esquina6();
-	esquina7();
-	esquina8();
-	//ARISTAS
-	arista1();
-	arista2();
-	arista3();
-	arista4();
-	arista5();
-	arista6();
-	arista7();
-	arista8();
-	arista9();
-	arista10();
-	arista11();
-	arista12();
+	//cornerS
+	corner1();
+	corner2();
+	corner3();
+	corner4();
+	corner5();
+	corner6();
+	corner7();
+	corner8();
+	//edgeS
+	edge1();
+	edge2();
+	edge3();
+	edge4();
+	edge5();
+	edge6();
+	edge7();
+	edge8();
+	edge9();
+	edge10();
+	edge11();
+	edge12();
 }
 
-void giroderecho()
+void turnRight()
 {
-	//CENTRO
+	// center
 	sticker(4, 13, 14, 26, 25);     //CENTRO IZQUIERDO
 	sticker(13, 16, 17, 29, 28);    //CENTRO FRONTAL
 
@@ -360,42 +371,42 @@ void giroderecho()
 	sticker(40, 48, 49, 51, 50);    //CENTRO SUPERIOR
 	sticker(49, 52, 53, 55, 54);    //CENTRO INFERIOR
 
-	//ESQUINAS
-	esquina1();
+	// corners
+	corner1();
 
 
-	esquina4();
-	esquina5();
+	corner4();
+	corner5();
 
-	esquina8();
-	//ARISTAS
-	arista1();
-	arista2();
+	corner8();
+	// edges
+	edge1();
+	edge2();
 
-	arista4();
-	arista5();
+	edge4();
+	edge5();
 
-	arista8();
-	arista9();
-	arista10();
+	edge8();
+	edge9();
+	edge10();
 
-	arista12();
+	edge12();
 
 	sticker(54, 5, 10, 46, 41);
 
 	glRotatef(45.00, 0.0f, 1.0f, 0.0f);
 
-	esquina2();
-	esquina3();
-	esquina6();
-	esquina7();
+	corner2();
+	corner3();
+	corner6();
+	corner7();
 
-	arista3();
-	arista6();
-	arista7();
-	arista11();
+	edge3();
+	edge6();
+	edge7();
+	edge11();
 
-	sticker(22, 19, 20, 32, 31);    //CENTRO DERECHO
+	sticker(22, 19, 20, 32, 31);    // right center
 
 
 }
@@ -414,7 +425,7 @@ static void display(void)
 	glRotatef(rotate_z, 0.0f, 0.0f, 1.0f);
 
 	drawcube();
-	//giroderecho();
+	//turnRight();
 
 	glPopMatrix();
 	glFlush();
@@ -437,25 +448,25 @@ static void idle(void)
 
 int main(int argc, char *argv[])
 {
-	glutInit(&argc, argv);										// Innicializar glut
-	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);	// Modo de visualizaciòn
-	glutInitWindowSize(700, 700);								// Inicializar ventana
-	glutInitWindowPosition(0, 0);								//
-	glutCreateWindow("Rubik OpenGL");
+	glutInit(&argc, argv);										// Initialize glut
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);	// Visualization mode
+	glutInitWindowSize(700, 700);								// Window initial size
+	glutInitWindowPosition(0, 0);								// Window initial position
+	glutCreateWindow("Rubik OpenGL");							// Create window
 
-	textures[0] = LoadTexture("/home/fwcheesecake/CppProjects/rubik/img/stckNaranja.bmp");
-	textures[1] = LoadTexture("/home/fwcheesecake/CppProjects/rubik/img/stckBlanco.bmp");
-	textures[2] = LoadTexture("/home/fwcheesecake/CppProjects/rubik/img/stckRojo.bmp");
-	textures[3] = LoadTexture("/home/fwcheesecake/CppProjects/rubik/img/stckAmarillo.bmp");
-	textures[4] = LoadTexture("/home/fwcheesecake/CppProjects/rubik/img/stckAzul.bmp");
-	textures[5] = LoadTexture("/home/fwcheesecake/CppProjects/rubik/img/stckVerde.bmp");
+	textures[0] = loadTexture("/home/fwcheesecake/CppProjects/rubik/img/stckNaranja.bmp");
+	textures[1] = loadTexture("/home/fwcheesecake/CppProjects/rubik/img/stckBlanco.bmp");
+	textures[2] = loadTexture("/home/fwcheesecake/CppProjects/rubik/img/stckRojo.bmp");
+	textures[3] = loadTexture("/home/fwcheesecake/CppProjects/rubik/img/stckAmarillo.bmp");
+	textures[4] = loadTexture("/home/fwcheesecake/CppProjects/rubik/img/stckAzul.bmp");
+	textures[5] = loadTexture("/home/fwcheesecake/CppProjects/rubik/img/stckVerde.bmp");
 
 	glClearColor(0.2f, 0.2f, 0.2f, 1.0f);
 	glEnable(GL_DEPTH_TEST);
-	glutReshapeFunc(resize);									// Función que GLUT utilizará cuando redimensiona la ventana
-	glutDisplayFunc(display);									// Funciòn que GLUT invoca cada que redibuja
-	glutKeyboardFunc(key);
-	glutIdleFunc(idle);
+	glutReshapeFunc(resize);									// Set the glut rezise function reference
+	glutDisplayFunc(display);									// Set the glut display function reference
+	glutKeyboardFunc(key);										// Set the glut keyboard function
+	glutIdleFunc(idle);											//  Set the glut idle function
 	glutMainLoop();												// Todo funciona en un ciclo
 	return EXIT_SUCCESS;
 }
