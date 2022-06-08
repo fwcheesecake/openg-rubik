@@ -1,3 +1,14 @@
+/**
+ * @file rubik.h
+ * @author Antonio Reyna Espinoza (antoniore102001@gmail.com)
+ * @brief 
+ * @version 0.1
+ * @date 2022-06-08
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
+
 #include <GL/gl.h>
 #include <GL/glut.h>
 #include <stdlib.h>

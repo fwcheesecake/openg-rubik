@@ -19,6 +19,12 @@
 
 using namespace Rubik;
 
+/**
+ * @brief Method that Glut will use to reshape
+ * 
+ * @param width 
+ * @param height 
+ */
 static void resize(int width, int height)
 {
 	glViewport(0, 0, width, height);
@@ -45,7 +51,7 @@ static void display(void)
 	// glRotatef(rotate_y, 0.0f, 1.0f, 0.0f);
 	glRotatef(rotate_z, 0.0f, 0.0f, 1.0f);
 
-	// drawcube();
+	//Movements::drawCube();
 	Movements::turnRight();
 	//Movements::turnFront();
 
@@ -86,6 +92,8 @@ static void idle(void)
 	if (moving != Move::NONE)
 	{
 		theta += 0.5;
+		std::cout << theta << '\n';
+		/*
 		float value = abs(theta / 90.0);
 		if (value == 4)
 		{
@@ -93,10 +101,10 @@ static void idle(void)
 			moving = Move::NONE;
 		}
 		else if (value == 1 || value == 2 || value == 3)
-			;
 		{
 			moving = Move::NONE;
 		}
+		*/
 	}
 	glutPostRedisplay();
 }
